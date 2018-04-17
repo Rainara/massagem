@@ -8,5 +8,6 @@ public class MassagemApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MassagemApplication.class, args);
+		System.out.println();
 	}
 }
