@@ -1,4 +1,4 @@
-package com.twu.massagem;
+package com.twu.massagem.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

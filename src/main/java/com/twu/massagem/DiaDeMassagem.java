@@ -32,4 +32,8 @@ public class DiaDeMassagem {
     public String getTipoDeMassagem() {
         return tipoDeMassagem;
     }
+
+    public String adicionarDiaDeMassagem() {
+        return "";
+    }
 }
