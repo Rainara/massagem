@@ -3,13 +3,11 @@ package com.twu.massagem.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.twu.massagem.User;
 import com.twu.massagem.UserRepository;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller    // This means that this class is a Controller
 @RequestMapping(path="/demo") // This means URL's start with /demo (after Application path)
@@ -36,4 +34,6 @@ public class MainController {
         // This returns a JSON or XML with the users
         return userRepository.findAll();
     }
+
+
 }
