@@ -1,39 +1,101 @@
 package com.twu.massagem;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
-@Entity
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.stream.Collectors;
+
 public class DiaDeMassagem {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
-    String date;
-    String tipoDeMassagem;
 
-    public DiaDeMassagem(int id, String date, String tipoDeMassagem) {
-        this.id = id;
-        this.date = date;
-        this.tipoDeMassagem = tipoDeMassagem;
+    private int id;
+    private LocalDate data;
+    public String tipoDeMassagem;
+
+    public String getTipoDeMassagem() {
+        return tipoDeMassagem;
     }
 
     public int getId() {
         return id;
     }
 
-    public String getDate() {
-        return date;
+    public LocalDate getData() {
+        return data;
     }
 
-    public String getTipoDeMassagem() {
-        return tipoDeMassagem;
+    public boolean validarData(List<LocalDate> datas, int quantidade) {
+
+        if(!datas.isEmpty() && quantidade==datas.size() && quantidade>0) {
+            if(contarDatasDuplicadas(datas)==0)
+                return true;
+        }
+            return false;
     }
 
-    public String adicionarDiaDeMassagem() {
-        return "";
+    public int contarDatasDuplicadas(List<LocalDate> datas){
+
+        List<LocalDate> distinctList = (List<LocalDate>)datas.stream().distinct().collect(Collectors.toList());
+        int duplicatedItems = datas.size()-distinctList.size();
+
+        return duplicatedItems;
+    }
+
+    public List<String> verificaTipo(int quantidade, String tipoMassagem) {
+
+        List<String> tiposEntrada = new ArrayList<String>();
+
+        for (int i=0;i<quantidade;i++){
+
+            tiposEntrada.add(tipoMassagem);
+
+        }
+
+        return tiposEntrada;
+
+    }
+
+    public boolean verificaData(List<LocalDate> datas) {
+
+        LocalDate today = LocalDate.now();
+
+        for (LocalDate data : datas) {
+
+            if (data.isBefore(today)) {
+                return false;
+            }
+        }
+
+        return true;
+
+    }
+
+    public DiaDeMassagem() {
+    }
+
+    public DiaDeMassagem(int id, LocalDate data, String tipoDeMassagem) {
+        this.id = id;
+        this.data = data;
+        this.tipoDeMassagem = tipoDeMassagem;
+    }
+
+    public List<DiaDeMassagem> insereDiaDeMassagem(int quantidade, List<LocalDate> datas, String tipoDeMassagem) {
+
+        List<DiaDeMassagem> diasDeMassagem = new ArrayList<>();
+
+        if(validarData(datas,quantidade) && verificaData(datas)){
+
+            for (int i=0;i<quantidade;i++){
+
+                diasDeMassagem.add(new DiaDeMassagem(i, datas.get(i), tipoDeMassagem));
+
+            }
+        }
+        return diasDeMassagem;
     }
 }
