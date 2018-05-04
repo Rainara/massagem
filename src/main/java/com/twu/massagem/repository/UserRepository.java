@@ -1,8 +1,8 @@
-package com.twu.massagem;
+package com.twu.massagem.repository;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.twu.massagem.User;
+import com.twu.massagem.model.User;
 
 // This will be AUTO IMPLEMENTED by Spring into a Bean called userRepository
 // CRUD refers Create, Read, Update, Delete

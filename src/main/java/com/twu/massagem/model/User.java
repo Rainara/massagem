@@ -1,4 +1,4 @@
-package com.twu.massagem;
+package com.twu.massagem.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

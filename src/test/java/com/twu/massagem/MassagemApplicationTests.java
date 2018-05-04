@@ -1,19 +1,14 @@
 package com.twu.massagem;
 
-import com.twu.massagem.controller.DiaController;
-import org.junit.Assert;
+import com.twu.massagem.model.DiaDeMassagem;
 import org.junit.Test;
-import org.junit.experimental.theories.suppliers.TestedOn;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.validation.constraints.AssertTrue;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -107,15 +102,13 @@ public class MassagemApplicationTests {
         datas.add(creteDateFromPattern("2018-05-16"));
 		datas.add(creteDateFromPattern("2018-05-17"));
 
-        List<DiaDeMassagem> diasDeMassagem = new ArrayList(Arrays.asList(new DiaDeMassagem(0, datas.get(0),"Especial"),
-				new DiaDeMassagem(1,datas.get(1), "Especial")));
+        List<DiaDeMassagem> diasDeMassagem = new ArrayList(Arrays.asList(new DiaDeMassagem(datas.get(0),"Especial"),
+				new DiaDeMassagem(datas.get(1), "Especial")));
 		List<DiaDeMassagem> diasDeMassagemEntrada = diaDeMassagem.insereDiaDeMassagem(2, datas,"Especial");
 
 
-        assertEquals(diasDeMassagem.get(0).getId(),diasDeMassagemEntrada.get(0).getId());
 		assertEquals(diasDeMassagem.get(0).getData(),diasDeMassagemEntrada.get(0).getData());
 		assertEquals(diasDeMassagem.get(0).getTipoDeMassagem(),diasDeMassagemEntrada.get(0).getTipoDeMassagem());
-		assertEquals(diasDeMassagem.get(1).getId(),diasDeMassagemEntrada.get(1).getId());
 		assertEquals(diasDeMassagem.get(1).getData(),diasDeMassagemEntrada.get(1).getData());
 		assertEquals(diasDeMassagem.get(1).getTipoDeMassagem(),diasDeMassagemEntrada.get(1).getTipoDeMassagem());
 	}

@@ -1,18 +1,19 @@
-package com.twu.massagem;
+package com.twu.massagem.model;
 
 
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Entity
 public class DiaDeMassagem {
-
-
+     @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
     private LocalDate data;
     public String tipoDeMassagem;
@@ -78,8 +79,7 @@ public class DiaDeMassagem {
     public DiaDeMassagem() {
     }
 
-    public DiaDeMassagem(int id, LocalDate data, String tipoDeMassagem) {
-        this.id = id;
+    public DiaDeMassagem(LocalDate data, String tipoDeMassagem) {
         this.data = data;
         this.tipoDeMassagem = tipoDeMassagem;
     }
@@ -92,7 +92,7 @@ public class DiaDeMassagem {
 
             for (int i=0;i<quantidade;i++){
 
-                diasDeMassagem.add(new DiaDeMassagem(i, datas.get(i), tipoDeMassagem));
+                diasDeMassagem.add(new DiaDeMassagem(datas.get(i), tipoDeMassagem));
 
             }
         }
