@@ -2,11 +2,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>YUKE</title>
 </head>
-
 <body>
-Este é a view!YUKEEEEEEE
+<h3>Cadastro dia de Massagem</h3>
+<form>
+    <label>Quantidade:</label>
+    <input type="number" id="quantidade" name="quantidade" min="1" required><br>
+
+    <label>Data:</label>
+    <input type="date" id="data" name="data" aria-multiselectable="true" required><br>
+
+    <label>Tipo de Massagem: </label>
+    <input type="radio" name="tipoDeMassagem" value="normal" checked="checked"> Normal
+    <input type="radio" name="tipoDeMassagem" value="especial">Especial<br>
+
+    <input type="submit" value="Submit"/>
+
+</form>
+<script>
+$('#data').datepicker()
+
+window.clone_out = (subject) ->
+  $subject = $(subject)
+  $($subject.html()).appendTo('body')
+  $subject.remove()
+  $('.ui-datepicker-calendar > tbody > tr > td a.ui-state-default').click(stop_it)
+
+window.stop_it = (e) ->
+  console.log('hey', @)
+  $(@).toggleClass('ui-state-active')
+  #e.preventDefault()
+  e.stopPropagation()
+  false
+
+just_stop = (e) ->
+  e.stopPropagation()
+  false
+
+$('body').on('click', '.ui-datepicker-calendar > tbody > tr > td a.ui-state-default', stop_it)
+
+$('.ui-datepicker-calendar > tbody > tr > td a.ui-state-default').click(stop_it)
+
+</script>
 </body>
+
 </html>
+
+

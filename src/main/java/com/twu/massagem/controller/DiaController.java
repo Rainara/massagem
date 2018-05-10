@@ -1,9 +1,7 @@
 package com.twu.massagem.controller;
 
 
-import com.twu.massagem.model.DiaDeMassagem;
-import com.twu.massagem.repository.DiaDeMassagemRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.twu.massagem.model.MassageDay;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,11 +12,13 @@ import java.util.List;
 @RequestMapping("/massagem")
 
 public class DiaController {
-    @Autowired
-    private DiaDeMassagemRepository diaDeMassagemRepository;
+    //@Autowired
+    //private DiaDeMassagemRepository diaDeMassagemRepository;
 
     @RequestMapping("/home")
     public String home(){
+
+
 
         return "/DiaMassagemView.html";
     }
@@ -27,13 +27,13 @@ public class DiaController {
     public @ResponseBody String adicionarNovaMassagem (@RequestParam int quantidade
             , @RequestParam List<LocalDate> dias, @RequestParam String tipoDeMassagem) {
 
-        DiaDeMassagem dia = new DiaDeMassagem();
+        MassageDay dia = new MassageDay();
 
-       List<DiaDeMassagem> listaDiasDeMassagem = dia.insereDiaDeMassagem(quantidade, dias, tipoDeMassagem);
+       //List<MassageDay> listaDiasDeMassagem = dia.insereDiaDeMassagem(quantidade, dias, tipoDeMassagem);
 
-       for (int i = 0; i < listaDiasDeMassagem.size(); i++) {
-            diaDeMassagemRepository.save(listaDiasDeMassagem.get(i));
-        }
+       //for (int i = 0; i < listaDiasDeMassagem.size(); i++) {
+            //diaDeMassagemRepository.save(listaDiasDeMassagem.get(i));
+       // }
 
         return "saved";
     }

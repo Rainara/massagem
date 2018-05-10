@@ -1,6 +1,7 @@
 package com.twu.massagem;
 
-import com.twu.massagem.model.DiaDeMassagem;
+import com.twu.massagem.model.MassageDay;
+import com.twu.massagem.validation.MassageValidation;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,71 +22,69 @@ public class MassagemApplicationTests {
 	}
 
 	@Test
-	public void naoDeveAceitarQuantidadeZero(){
-		DiaDeMassagem validaDia = new DiaDeMassagem();
-        List<LocalDate> datas = new ArrayList<>();
-		assertFalse(validaDia.validarData(datas,0));
+	public void shouldNotAcceptQuantityZero(){
+
+		List<LocalDate> dates = new ArrayList<>();
+		dates.add(LocalDate.parse("2016-08-16"));
+		dates.add(LocalDate.parse("2016-08-17"));
+		dates.add(LocalDate.parse("2016-08-18"));
+
+		MassageValidation massageValidation = new MassageValidation(dates,0);
+		assertFalse(massageValidation.isEqualQuantityAndInformedDates());
 	}
 
 	@Test
-	public void conjuntoDeDatasNaoDeveSerVazio(){
+	public void shouldNotAcceptEmptyDateList(){
 
-		DiaDeMassagem validaDia = new DiaDeMassagem();
-		List<LocalDate> datas = new ArrayList<>();
-				assertFalse(validaDia.validarData(datas,2));
-
-	}
-
-	@Test
-	public void deveAceitarApenasDatasDiferentes(){
-
-		DiaDeMassagem validaDia = new DiaDeMassagem();
-		List<LocalDate> datas = new ArrayList<>();
-
-		datas.add(creteDateFromPattern("2016-08-16"));
-		datas.add(creteDateFromPattern("2016-08-16"));
-		datas.add(creteDateFromPattern("2016-08-16"));
-
-		assertEquals(2,validaDia.contarDatasDuplicadas(datas));
-		assertFalse(validaDia.validarData(datas,3));
+		List<LocalDate> dates = new ArrayList<>();
+		MassageValidation massageValidation = new MassageValidation(dates,0);
+		assertFalse(massageValidation.isEqualQuantityAndInformedDates());
 
 	}
 
 	@Test
-	public void numeroDeDatasDeveSerCorrespondenteAQuantidade(){
+	public void shouldAcceptOnlyDifferentDatesInTheList(){
 
-		DiaDeMassagem validaDia = new DiaDeMassagem();
-		List<LocalDate> datas = new ArrayList<>();
 
-		datas.add(creteDateFromPattern("2016-08-16"));
-		datas.add(creteDateFromPattern("2016-08-17"));
-		datas.add(creteDateFromPattern("2016-08-18"));
+		List<LocalDate> dates = new ArrayList<>();
 
-		assertFalse(validaDia.validarData(datas,2));
-		assertTrue(validaDia.validarData(datas,3));
-	}
+		dates.add(LocalDate.parse("2016-08-16"));
+		dates.add(LocalDate.parse("2016-08-16"));
+		dates.add(LocalDate.parse("2016-08-16"));
 
-	@Test
-	public void diasDeMassagemDevemTerMesmoTipo(){
-
-		DiaDeMassagem validaDia = new DiaDeMassagem();
-		List<String> resultado = new ArrayList ( Arrays.asList("Especial","Especial","Especial"));
-
-		assertEquals(resultado,validaDia.verificaTipo(3,"Especial"));
+		MassageValidation massageValidation = new MassageValidation(dates,3);
+		assertEquals(2,massageValidation.countDuplicatedDates());
+		assertFalse(massageValidation.isEqualQuantityAndInformedDates());
 
 	}
 
 	@Test
-	public void deveAceitarDatasApenasAPartirDoPresente(){
-		DiaDeMassagem validaDia = new DiaDeMassagem();
-		List<LocalDate> datas = new ArrayList<>();
+	public void listSizeShouldBeEqualToQuantity(){
 
-		datas.add(creteDateFromPattern("2016-08-16"));
-		datas.add(creteDateFromPattern("2016-08-16"));
-		datas.add(creteDateFromPattern("2016-08-16"));
-		datas.add(creteDateFromPattern("2016-08-16"));
+		MassageDay validaDia = new MassageDay();
+		List<LocalDate> dates = new ArrayList<>();
 
-		assertFalse(validaDia.verificaData(datas));
+		dates.add(LocalDate.parse("2016-08-16"));
+		dates.add(LocalDate.parse("2016-08-17"));
+		dates.add(LocalDate.parse("2016-08-18"));
+
+		MassageValidation massageValidation = new MassageValidation(dates,3);
+		assertTrue(massageValidation.isEqualQuantityAndInformedDates());
+	}
+
+	@Test
+	public void shouldNotAcceptPastDates(){
+		MassageDay validaDia = new MassageDay();
+		List<LocalDate> dates = new ArrayList<>();
+
+		dates.add(LocalDate.parse("2015-08-16"));
+		dates.add(LocalDate.parse("2014-08-16"));
+		dates.add(LocalDate.parse("2013-08-16"));
+		dates.add(LocalDate.parse("2012-08-16"));
+
+		MassageValidation massageValidation = new MassageValidation(dates,4);
+
+		assertFalse(massageValidation.isTheDateInAnAcceptableRange());
 	}
 
 	private LocalDate creteDateFromPattern(String date) {
@@ -93,43 +92,22 @@ public class MassagemApplicationTests {
 	}
 
 	@Test
-	public void deveRealizarInsercaoQuandoEntradaForValida(){
+	public void shouldReturnTrueWhenDatesAndQuantityAreValid(){
 
-	    DiaDeMassagem diaDeMassagem = new DiaDeMassagem();
+		List<LocalDate> dates = new ArrayList<>();
 
-        List<LocalDate> datas = new ArrayList<>();
+		dates.add(LocalDate.parse("2018-08-16"));
+		dates.add(LocalDate.parse("2018-08-17"));
+		dates.add(LocalDate.parse("2018-08-18"));
+		dates.add(LocalDate.parse("2018-08-19"));
 
-        datas.add(creteDateFromPattern("2018-05-16"));
-		datas.add(creteDateFromPattern("2018-05-17"));
+		MassageValidation massageValidation = new MassageValidation(dates,4);
 
-        List<DiaDeMassagem> diasDeMassagem = new ArrayList(Arrays.asList(new DiaDeMassagem(datas.get(0),"Especial"),
-				new DiaDeMassagem(datas.get(1), "Especial")));
-		List<DiaDeMassagem> diasDeMassagemEntrada = diaDeMassagem.insereDiaDeMassagem(2, datas,"Especial");
-
-
-		assertEquals(diasDeMassagem.get(0).getData(),diasDeMassagemEntrada.get(0).getData());
-		assertEquals(diasDeMassagem.get(0).getTipoDeMassagem(),diasDeMassagemEntrada.get(0).getTipoDeMassagem());
-		assertEquals(diasDeMassagem.get(1).getData(),diasDeMassagemEntrada.get(1).getData());
-		assertEquals(diasDeMassagem.get(1).getTipoDeMassagem(),diasDeMassagemEntrada.get(1).getTipoDeMassagem());
-	}
-
-	@Test
-	public void deveRetornarVazioEmInsercaoInvalida(){
-
-		DiaDeMassagem diaDeMassagem = new DiaDeMassagem();
-		List<DiaDeMassagem> diasDeMassagem= new ArrayList<>();
-
-		List<LocalDate> datas = new ArrayList<>();
-
-		datas.add(creteDateFromPattern("2018-04-16"));
-		datas.add(creteDateFromPattern("2018-04-17"));
-
-		List<DiaDeMassagem> diasDeMassagemEntrada = diaDeMassagem.insereDiaDeMassagem(3,datas,"Especial");
-
-		assertEquals(diasDeMassagem, diasDeMassagemEntrada);
-
+		assertTrue(massageValidation.isTheInputGivenValidated());
 
 	}
+
+
 
 
 }
