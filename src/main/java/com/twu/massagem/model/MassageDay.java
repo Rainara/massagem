@@ -30,5 +30,6 @@ public class MassageDay {
         this.massageType = massageType;
     }
 
-
+    public MassageDay() {
+    }
 }

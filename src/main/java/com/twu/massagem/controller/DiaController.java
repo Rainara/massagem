@@ -2,8 +2,10 @@ package com.twu.massagem.controller;
 
 
 import com.twu.massagem.model.MassageDay;
+import com.twu.massagem.validation.MassageValidation;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,23 +19,24 @@ public class DiaController {
 
     @RequestMapping("/home")
     public String home(){
-
-
-
         return "/DiaMassagemView.html";
     }
 
     @GetMapping(path="/criarMassagem")
-    public @ResponseBody String adicionarNovaMassagem (@RequestParam int quantidade
-            , @RequestParam List<LocalDate> dias, @RequestParam String tipoDeMassagem) {
+    public @ResponseBody String adicionarNovaMassagem (@RequestParam int quantity
+            , @RequestParam List<LocalDate> dates, @RequestParam String massageType) {
 
-        MassageDay dia = new MassageDay();
+        ModelAndView mv = new ModelAndView("redirect:/");
 
-       //List<MassageDay> listaDiasDeMassagem = dia.insereDiaDeMassagem(quantidade, dias, tipoDeMassagem);
 
-       //for (int i = 0; i < listaDiasDeMassagem.size(); i++) {
-            //diaDeMassagemRepository.save(listaDiasDeMassagem.get(i));
-       // }
+
+        MassageValidation massageValidation = new MassageValidation(dates,quantity);
+
+        if(massageValidation.isTheInputGivenValidated()){
+            for (int i=0;i<dates.size();i++){
+
+            }
+        }
 
         return "saved";
     }

@@ -1,3 +1,4 @@
-$(function() {
-  $('#datetimepicker1').datetimepicker();
+$('.date').datepicker({
+    multidate: true,
+	format: 'dd-mm-yyyy'
 });
